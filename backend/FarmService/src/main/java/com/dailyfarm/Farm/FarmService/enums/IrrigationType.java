@@ -6,5 +6,9 @@ public enum IrrigationType {
     SURFACE_WATER,
     SPRINKLER,
     DRIP,
-    FLOOD
+    FLOOD,
+    CANAL,
+    SUBSURFACE,
+    MANUAL
+
 }

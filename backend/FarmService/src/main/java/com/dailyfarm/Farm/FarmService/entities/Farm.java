@@ -31,7 +31,7 @@ public class Farm {
     private String ownerId;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false,length = 20)
     private FarmType farmType;
 
 
@@ -58,9 +58,11 @@ public class Farm {
     private BigDecimal longitude;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "soil_type",length = 20)
     private SoilType soilType;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "irrigation_type",length = 20)
     private IrrigationType irrigationType;
 
     @Column(columnDefinition = "TEXT")

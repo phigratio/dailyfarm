@@ -1,8 +1,12 @@
 package com.dailyfarm.Farm.FarmService.enums;
 
 public enum PlotStatus {
-    AVAILABLE,
-    OCCUPIED,
-    RESTING,
-    UNDER_PREPARATION
+    VACANT,
+    PLANTED,
+    GROWING,
+    READY_TO_HARVEST,
+    HARVESTING,
+    UNDER_PREPARATION,
+    FALLOW,
+    DAMAGED
 }
