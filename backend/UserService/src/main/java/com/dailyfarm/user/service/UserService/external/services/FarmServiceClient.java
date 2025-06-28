@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name = "FARM-SERVICE", url = "${farm.service.url:http://localhost:8081}")
+@FeignClient(name = "FARMSERVICE", url = "${farm.service.url:http://localhost:9091}")
 public interface FarmServiceClient {
 
     @GetMapping("/farms/owner/{ownerId}")
