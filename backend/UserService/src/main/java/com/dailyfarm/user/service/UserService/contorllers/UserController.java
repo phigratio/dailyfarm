@@ -40,6 +40,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+        return ResponseEntity.ok(userService.getUserByEmail(email));
+    }
+
     @GetMapping
     public ResponseEntity<List<User>> getAllUser() {
         List<User> allUsers = userService.getAllUsers();

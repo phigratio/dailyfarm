@@ -1,5 +1,6 @@
 package com.dailyfarm.AnimalService.entitites;
 
+import com.dailyfarm.AnimalService.enums.HealthStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,9 +27,9 @@ public class AnimalHealth {
     @JoinColumn(name = "animal_id", nullable = false)
     private Animal animal;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private HealthStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private HealthStatus status;
 
     @Column(name = "checkup_date", nullable = false)
     private LocalDateTime checkupDate;

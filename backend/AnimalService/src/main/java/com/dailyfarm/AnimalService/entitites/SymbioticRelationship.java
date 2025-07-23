@@ -1,5 +1,6 @@
 package com.dailyfarm.AnimalService.entitites;
 
+import com.dailyfarm.AnimalService.enums.SymbioticType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -32,15 +33,21 @@ public class SymbioticRelationship {
     @Column(name = "relationship_name", nullable = false)
     private String relationshipName;
 
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private SymbioticType type;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private SymbioticType type;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
     // Animals involved in the relationship
-
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "symbiotic_relationship_animals",
+            joinColumns = @JoinColumn(name = "relationship_id"),
+            inverseJoinColumns = @JoinColumn(name = "animal_id")
+    )
+    private Set<Animal> animals;
 
     // Crops involved in the relationship
     @Column(name = "crop_ids")

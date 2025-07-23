@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "dailyfarm_animal_breeds")
@@ -24,6 +25,9 @@ public class AnimalBreed {
     @Column(nullable = false)
     private String breedName;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "animal_type_id", nullable = false)
+    private AnimalType animalType;
 
     @Column(columnDefinition = "TEXT")
     private String description;
@@ -61,5 +65,7 @@ public class AnimalBreed {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-
+    // Relationships
+    @OneToMany(mappedBy = "breed", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Animal> animals;
 }

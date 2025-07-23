@@ -54,7 +54,11 @@ public class UserServiceImpl implements UserService {
         User user=getUser(id);
         userRepository.delete(user);
     }
-
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+    }
     @Override
     public User updateUser(User user) {
         User existingUser=getUser(user.getUserId());
