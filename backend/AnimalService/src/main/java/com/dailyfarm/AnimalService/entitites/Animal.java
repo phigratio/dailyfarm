@@ -1,5 +1,7 @@
 package com.dailyfarm.AnimalService.entitites;
 
+import com.dailyfarm.AnimalService.enums.AnimalCategory;
+import com.dailyfarm.AnimalService.enums.AnimalStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,6 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "dailyfarm_animals")
@@ -28,6 +32,25 @@ public class Animal {
 
     @Column(nullable = false)
     private String farmId;
+
+    @Column(nullable = false)
+    private String ownerId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "animal_type_id", nullable = false)
+    private AnimalType animalType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "breed_id")
+    private AnimalBreed breed;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AnimalCategory category;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AnimalStatus status;
 
     @Column(nullable = false)
     private LocalDate birthDate;
@@ -97,10 +120,17 @@ public class Animal {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    // Relationships
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AnimalHealth> healthRecords;
 
-    @Column(nullable = false)
-    private String ownerId;
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AnimalProductivity> productivityRecords;
 
+    @ManyToMany(mappedBy = "animals", fetch = FetchType.LAZY)
+    private Set<SymbioticRelationship> symbioticRelationships;
+
+    // Calculated fields
     public int getAgeInDays() {
         return java.time.Period.between(birthDate, LocalDate.now()).getDays();
     }
