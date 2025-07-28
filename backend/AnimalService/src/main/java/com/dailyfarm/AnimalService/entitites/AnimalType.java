@@ -1,5 +1,6 @@
 package com.dailyfarm.AnimalService.entitites;
 
+import com.dailyfarm.AnimalService.enums.AnimalCategory;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
