@@ -1,24 +1,15 @@
+export const signUp = (user, roleId) => {
+  return publicAxios
+    .post(`/auth/register?roleId=${roleId}`, user)  // Updated endpoint
+    .then((response) => response.data);
+};
 
-import { privateAxios, publicAxios } from "../axiosConfig";
-
-export const userService = {
-  // Fetch all users (requires authentication)
-  getAllUsers: async () => {
-    const response = await privateAxios.get("/users");
-    return response.data;
-  },
-
-  // Fetch user by ID (requires authentication)
-  getUserById: async (userId: string) => {
-    const response = await privateAxios.get(`/users/${userId}`);
-    return response.data;
-  },
-
-  // Search users by username (doesn't require authentication)
-  searchUsers: async (username: string) => {
-    const response = await publicAxios.get("/users/search", {
-      params: { username },
+export const login = (loginDetail) => {
+  return publicAxios
+    .post("/auth/login", loginDetail)  // Updated endpoint
+    .then((response) => {
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user_id", response.data.user.id);  // Ensure this matches the backend response
+      return response.data;
     });
-    return response.data;
-  },
 };
