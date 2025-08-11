@@ -46,18 +46,28 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest request) {
-        if (request.getUsername() == null || request.getPassword() == null) {
+        if (request.getEmail() == null || request.getPassword() == null) {
             throw new ApiException("Username and password are required");
         }
-        this.authenticate(request.getUsername(), request.getPassword());
-        UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.getUsername());
+
+        // Authenticate user credentials
+        this.authenticate(request.getEmail(), request.getPassword());
+
+        // Load UserDetails for JWT generation
+        UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.getEmail());
         String token = this.jwtTokenHelper.generateToken(userDetails);
+
+        // Fetch full User entity from your user service client (so you can map to DTO properly)
+        User user = this.userServiceClient.getUserByEmail(request.getEmail());
+        UserDTO userDTO = this.mapper.map(user, UserDTO.class);
 
         JwtAuthResponse response = new JwtAuthResponse();
         response.setToken(token);
-        response.setUser(this.mapper.map(userDetails, UserDTO.class)); // Map to DTO
+        response.setUser(userDTO);
+
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     private void authenticate(String username, String password) {
         User user = this.userServiceClient.getUserByEmail(username);
@@ -72,7 +82,7 @@ public class AuthController {
         try {
             this.authenticationManager.authenticate(authenticationToken);
         } catch (BadCredentialsException e) {
-            throw new ApiException("Invalid username or password");
+            throw new ApiException("Invalid email or password");
         }
     }
 
