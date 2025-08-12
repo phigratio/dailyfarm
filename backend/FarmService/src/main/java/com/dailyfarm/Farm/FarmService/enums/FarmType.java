@@ -12,5 +12,5 @@ public enum FarmType {
     DAIRY,
     MIXED,
     ORGANIC,
-    HYDROPONIC,// Controlled environment
+    HYDROPONIC,
 }
