@@ -4,7 +4,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class FarmDto {
+public class FarmDTO {
     private String farmId;
     private String farmName;
     private String ownerId;

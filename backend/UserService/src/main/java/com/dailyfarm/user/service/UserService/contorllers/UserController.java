@@ -1,6 +1,6 @@
 package com.dailyfarm.user.service.UserService.contorllers;
 
-import com.dailyfarm.user.service.UserService.dto.FarmDto;
+import com.dailyfarm.user.service.UserService.dto.FarmDTO;
 import com.dailyfarm.user.service.UserService.entities.User;
 import com.dailyfarm.user.service.UserService.enums.RoleEnum;
 import com.dailyfarm.user.service.UserService.enums.UserStatus;
@@ -96,7 +96,7 @@ public class UserController {
         response.put("user", user);
 
         try {
-            ResponseEntity<List<FarmDto>> farmsResponse = farmServiceClient.getFarmsByOwnerId(userId);
+            ResponseEntity<List<FarmDTO>> farmsResponse = farmServiceClient.getFarmsByOwnerId(userId);
             response.put("farms", farmsResponse.getBody());
             log.info("Fetched {} farms for user {}",
                     farmsResponse.getBody() != null ? farmsResponse.getBody().size() : 0, userId);
