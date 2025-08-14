@@ -15,7 +15,7 @@ export const login = (loginDetail) => {
     .then((response) => {
       // Save the token and user ID after successful login
       localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user_id", response.data.user.id); // Ensure this is returned by backend
+      localStorage.setItem("user", JSON.stringify(response.data.user.userId)); // Ensure this is returned by backend
       return response.data;
     });
 };

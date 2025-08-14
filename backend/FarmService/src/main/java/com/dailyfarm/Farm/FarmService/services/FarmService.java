@@ -8,7 +8,7 @@ public interface FarmService {
     Farm createFarm(Farm farm);
     List<Farm> getAllFarms();
     Farm getFarmById(String id);
-    Farm updateFarm(Farm farm);
+    Farm updateFarm(String id,Farm farm);
     void deleteFarm(String id);
     List<Farm> getFarmsByOwnerId(String ownerId);
     List<Farm> getFarmsByDivision(String division);

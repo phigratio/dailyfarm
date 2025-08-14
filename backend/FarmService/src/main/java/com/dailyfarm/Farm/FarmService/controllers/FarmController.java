@@ -34,9 +34,10 @@ public class FarmController {
         return ResponseEntity.ok(farms);
     }
 
-    @PutMapping
-    public ResponseEntity<Farm> updateFarm(@RequestBody Farm farm) {
-        Farm updatedFarm = farmService.updateFarm(farm);
+    @PutMapping("/{farmId}")
+    public ResponseEntity<Farm> updateFarm(@PathVariable String farmId,
+                                           @RequestBody Farm farm) {
+        Farm updatedFarm = farmService.updateFarm(farmId,farm);
         return ResponseEntity.ok(updatedFarm);
     }
 
