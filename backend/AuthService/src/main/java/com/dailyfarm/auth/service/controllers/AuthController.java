@@ -22,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -87,16 +91,20 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@RequestBody UserDTO userDto) {
+    public ResponseEntity<Object> registerUser(@RequestBody UserDTO userDto) {
         if (userDto.getEmail() == null || userDto.getPassword() == null) {
             throw new ApiException("Email and password are required");
         }
-        // Map DTO to entity
+        User alreadyExistUser=this.userServiceClient.getUserByEmail(userDto.getEmail());
+        if(alreadyExistUser!=null){
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Email already exists, please use another email");
+            return ResponseEntity.ok().body(errorResponse);
+        }
         User user = mapper.map(userDto, User.class);
-        user.setPassword(passwordEncoder.encode(user.getPassword())); // Hash
-        // Set defaults if needed (role, status already handled in USER-SERVICE save)
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User registeredUser = this.userServiceClient.createUser(user);
         return new ResponseEntity<>(mapper.map(registeredUser, UserDTO.class), HttpStatus.CREATED);
+
     }
 }

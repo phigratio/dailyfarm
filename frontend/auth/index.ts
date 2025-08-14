@@ -48,7 +48,7 @@ export const getCurrentUserDetail = async () => {
 // Logout function
 export const doLogout = (callback?: () => void) => {
   localStorage.removeItem("token");
-  localStorage.removeItem("user_id");
+  localStorage.removeItem("user");
   if (callback) callback();
 };
 
@@ -89,6 +89,18 @@ export const resetPassword = (email: string, otp: string, newPassword: string) =
     .then((res) => res.data)
     .catch((err) => {
       console.error("Reset Password API Error:", err.response?.data || err.message);
+      throw err;
+    });
+};
+
+
+// Update user details
+export const updateUser = (user: any) => {
+  return privateAxios
+    .put("/users", user)  // Your Spring Boot update user endpoint
+    .then(response => response.data)
+    .catch((err) => {
+      console.error("Update Profile API Error:", err.response?.data || err.message);
       throw err;
     });
 };

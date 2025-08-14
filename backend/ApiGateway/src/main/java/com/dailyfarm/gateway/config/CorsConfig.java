@@ -15,7 +15,7 @@ public class CorsConfig {
         config.setAllowCredentials(true);  // Allow credentials
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/auth/**", config);  // Explicitly handle `/auth` paths
+        source.registerCorsConfiguration("/**", config);  // Explicitly handle `/auth` paths
 
         return new CorsWebFilter(source);
     }

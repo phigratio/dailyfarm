@@ -7,6 +7,7 @@ import com.dailyfarm.user.service.UserService.exceptions.ResourceNotFoundExcepti
 import com.dailyfarm.user.service.UserService.repositories.UserRepository;
 import com.dailyfarm.user.service.UserService.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -57,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+                .orElse(null);
     }
     @Override
     public User updateUser(User user) {
@@ -65,12 +66,13 @@ public class UserServiceImpl implements UserService {
         if (user.getUserName() != null) {
             existingUser.setUserName(user.getUserName());
         }
-        if (user.getEmail() != null) {
-            existingUser.setEmail(user.getEmail());
-        }
-        if (user.getPassword() != null) {
-            existingUser.setPassword(user.getPassword());
-        }
+        //if (user.getEmail() != null) {
+          //  existingUser.setEmail(user.getEmail());
+        //}
+        //if (user.getPassword() != null) {
+          //  existingUser.setPassword(user.getPassword());
+
+        //}
         if (user.getPhoneNumber() != null) {
             existingUser.setPhoneNumber(user.getPhoneNumber());
         }
@@ -89,12 +91,12 @@ public class UserServiceImpl implements UserService {
         if (user.getAbout() != null) {
             existingUser.setAbout(user.getAbout());
         }
-        if (user.getRole() != null) {
-            existingUser.setRole(user.getRole());
-        }
-        if (user.getStatus() != null) {
-            existingUser.setStatus(user.getStatus());
-        }
+        //if (user.getRole() != null) {
+          //  existingUser.setRole(user.getRole());
+        //}
+        //if (user.getStatus() != null) {
+          //  existingUser.setStatus(user.getStatus());
+        //}
 
         return userRepository.save(existingUser);
     }

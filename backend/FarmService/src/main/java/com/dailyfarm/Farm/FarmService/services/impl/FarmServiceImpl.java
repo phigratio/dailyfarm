@@ -64,8 +64,8 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-    public Farm updateFarm(Farm farm) {
-        Farm existingFarm = getFarmById(farm.getFarmId());
+    public Farm updateFarm(String id,Farm farm) {
+        Farm existingFarm = getFarmById(id);
 
         if (farm.getFarmName() != null) {
             existingFarm.setFarmName(farm.getFarmName());

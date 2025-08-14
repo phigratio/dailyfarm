@@ -1,8 +1,8 @@
 'use client';
 
 import React, { createContext, useState, useEffect } from 'react';
-import { getCurrentUserDetail, isLoggedIn, doLogout } from '../auth'; // Adjust the import path as necessary
-import ClientOnly from '@/components/basicComponents/ClientOnly'; // Import ClientOnly component
+import { getCurrentUserDetail, isLoggedIn, doLogout } from '../auth/index'; 
+import ClientOnly from '../src/components/basicComponents/ClientOnly'; 
 
 interface UserContextType {
   user: { fullname: string; email: string } | null;
@@ -15,11 +15,21 @@ export const UserContext = createContext<UserContextType | null>(null);
 export const UserProvider = ({ children }: React.PropsWithChildren) => {
   const [user, setUser] = useState<{ fullname: string; email: string } | null>(null);
 
-  useEffect(() => {
+ useEffect(() => {
+  const fetchUser = async () => {
     if (isLoggedIn()) {
-      setUser(getCurrentUserDetail());
+      try {
+        const userData = await getCurrentUserDetail();
+        setUser(userData);
+      } catch (err) {
+        console.error("Failed to fetch user detail:", err);
+        setUser(null);
+      }
     }
-  }, []);
+  };
+  fetchUser();
+}, []);
+
 
   const logout = () => {
     doLogout(() => {
