@@ -1,7 +1,9 @@
 package com.dailyfarm.Farm.FarmService.controllers;
 
 import com.dailyfarm.Farm.FarmService.entities.Farm;
+import com.dailyfarm.Farm.FarmService.entities.Plot;
 import com.dailyfarm.Farm.FarmService.services.FarmService;
+import com.dailyfarm.Farm.FarmService.services.PlotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ public class FarmController {
 
     @Autowired
     private FarmService farmService;
+    @Autowired
+    private PlotService plotService;
 
     @PostMapping
     public ResponseEntity<Farm> createFarm(@RequestBody Farm farm) {
@@ -65,5 +69,19 @@ public class FarmController {
             @PathVariable String district) {
         List<Farm> farms = farmService.getFarmsByDivisionAndDistrict(division, district);
         return ResponseEntity.ok(farms);
+    }
+
+    @GetMapping("/{farmId}/plots")
+    public ResponseEntity<List<Plot>> getPlotsByFarmId(@PathVariable String farmId) {
+        List<Plot> plots = plotService.getPlotsByFarmId(farmId);
+        return ResponseEntity.ok(plots);
+    }
+
+    // Create a new plot under a farm
+    @PostMapping("/{farmId}/plots")
+    public ResponseEntity<Plot> createPlotForFarm(@PathVariable String farmId, @RequestBody Plot plot) {
+        plot.getFarm().setFarmId(farmId);  // Ensure farmId is set for plot
+        Plot savedPlot = plotService.savePlot(plot);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPlot);
     }
 }

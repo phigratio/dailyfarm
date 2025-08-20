@@ -1,6 +1,6 @@
 package com.dailyfarm.Farm.FarmService.services.impl;
 
-import com.dailyfarm.Farm.FarmService.dto.UserDto;
+import com.dailyfarm.Farm.FarmService.dto.UserDTO;
 import com.dailyfarm.Farm.FarmService.entities.Farm;
 import com.dailyfarm.Farm.FarmService.exceptions.ResourceNotFoundException;
 import com.dailyfarm.Farm.FarmService.external.services.UserServiceClient;
@@ -28,7 +28,7 @@ public class FarmServiceImpl implements FarmService {
     public Farm createFarm(Farm farm) {
         // Verify that the owner exists in User Service
         try {
-            ResponseEntity<UserDto> userResponse = userServiceClient.getUser(farm.getOwnerId());
+            ResponseEntity<UserDTO> userResponse = userServiceClient.getUser(farm.getOwnerId());
             if (userResponse.getBody() == null) {
                 throw new ResourceNotFoundException("User not found with id: " + farm.getOwnerId());
             }
