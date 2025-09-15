@@ -9,5 +9,8 @@ import java.util.List;
 
 @Repository
 public interface PlotRepository extends JpaRepository<Plot, String> {
+    List<Plot> findByFarm_FarmId(String farmId);
+
+    List<Plot> findByFarm_FarmIdAndStatus(String farmId, PlotStatus status);
 
 }

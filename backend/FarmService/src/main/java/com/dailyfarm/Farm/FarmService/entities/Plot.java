@@ -1,9 +1,12 @@
 package com.dailyfarm.Farm.FarmService.entities;
 
 import com.dailyfarm.Farm.FarmService.enums.PlotStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
@@ -19,13 +22,19 @@ import java.time.LocalDateTime;
 public class Plot {
 
     @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
     private String plotId;
 
     @Column(nullable = false)
     private String plotNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="farm_id",nullable = false)
+    @JoinColumn(name="farm_id", nullable = false)
+    @JsonBackReference
     private Farm farm;
 
     @Column(nullable = false)
@@ -40,9 +49,11 @@ public class Plot {
     private BigDecimal phosphorus;
     private BigDecimal potassium;
 
+    private BigDecimal waterPh;
+
     @Column(columnDefinition = "TEXT")
     private String notes;
-
+    private String plotType;
     @Column(nullable = false)
     private Boolean isActive = true;
 

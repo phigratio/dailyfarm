@@ -1,12 +1,13 @@
 package com.dailyfarm.Farm.FarmService.dto;
 
+import com.dailyfarm.Farm.FarmService.enums.CropCategory;
+import com.dailyfarm.Farm.FarmService.enums.CropStatus;
 import lombok.Data;
-import com.dailyfarm.CropService.crop.enums.CropCategory;
-import com.dailyfarm.CropService.crop.enums.CropStatus;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import
+
 
 @Data
 public class CropDTO {
