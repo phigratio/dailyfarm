@@ -64,3 +64,56 @@ export const updateUser = (user: any) => {
     });
 };
 
+
+export const generateGeminiContent = async (textPrompt: string): Promise<string> => {
+  const requestBody = {
+    contents: [
+      {
+        parts: [
+          {
+            text: textPrompt,
+          },
+        ],
+      },
+    ],
+  };
+
+  try {
+    const response = await privateAxios.post("users/api/gemini/generate", requestBody);
+
+    const responseStr =
+      typeof response.data === "string" ? response.data : JSON.stringify(response.data);
+
+    const match = responseStr.match(/"parts"\s*:\s*\[\s*\{\s*"text"\s*:\s*"([\s\S]*?)"\s*\}\s*\]/);
+
+    if (match && match[1]) {
+      return match[1].replace(/\\n/g, "\n");
+    }
+
+    return responseStr;
+  } catch (error) {
+    console.error("Gemini API generation error:", error);
+    throw error;
+  }
+};
+
+
+
+
+
+
+
+
+export const createFarm = async (farmPayload: any) => {
+  try {
+    const response = await privateAxios.post("/farms", farmPayload);
+    if (response.status === 201 || response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error(`Failed to create farm, status code: ${response.status}`);
+    }
+  } catch (error: any) {
+    console.error("Create Farm API error:", error.response?.data || error.message);
+    throw error;
+  }
+};

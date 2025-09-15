@@ -34,18 +34,12 @@ public class Crop {
     private String farmId;
 
     @Column(nullable = false)
-    private String plotId;  // Link to FarmService's Plot
+    private String plotId;
 
     @Column(nullable = false)
     private String ownerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "crop_type_id", nullable = false)
-    private CropType cropType;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "variety_id")
-    private CropVariety variety;
+    private String variety;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -73,22 +67,6 @@ public class Crop {
     @Column(name = "batch_number", unique = true)
     private String batchNumber;
 
-    @Column(nullable = false)
-    private String division;
-
-    @Column(nullable = false)
-    private String district;
-
-    @Column(nullable = false)
-    private String upazila;
-
-    private String village;
-
-    @Column(precision = 10, scale = 6)
-    private BigDecimal latitude;
-
-    @Column(precision = 10, scale = 6)
-    private BigDecimal longitude;
 
     @Column(name = "pest_resistance")
     private String pestResistance;  // e.g., "High to aphids"
@@ -121,8 +99,7 @@ public class Crop {
     @OneToMany(mappedBy = "crop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CropProductivity> productivityRecords;
 
-    @ManyToMany(mappedBy = "crops", fetch = FetchType.LAZY)
-    private Set<SymbioticRelationship> symbioticRelationships;
+
 
     // Calculated fields
     public int getGrowthDays() {

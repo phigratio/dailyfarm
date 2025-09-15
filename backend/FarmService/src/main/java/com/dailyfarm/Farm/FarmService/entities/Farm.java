@@ -3,6 +3,7 @@ package com.dailyfarm.Farm.FarmService.entities;
 import com.dailyfarm.Farm.FarmService.enums.FarmType;
 import com.dailyfarm.Farm.FarmService.enums.IrrigationType;
 import com.dailyfarm.Farm.FarmService.enums.SoilType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,6 +23,7 @@ import java.util.List;
 public class Farm {
 
     @Id
+
     private String farmId;
 
     @Column(nullable = false)
@@ -81,7 +83,9 @@ public class Farm {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Plot> plots;
+
 
 
 }

@@ -33,7 +33,7 @@ const Login = () => {
         title: "Welcome back!",
         description: "You have successfully logged in.",
       }); 
-      navigate("/");
+      navigate("/dashboard");
 
       
     } catch (err) {
