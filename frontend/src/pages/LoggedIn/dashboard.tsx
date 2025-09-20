@@ -202,6 +202,12 @@ Irrigation Type: [one option from RAIN_FED, TUBE_WELL, SURFACE_WATER, SPRINKLER,
                 Manage Farms
               </Button>
               <Button
+                onClick={() => navigate("/marketPlace")}
+                className="px-8 py-3 bg-gradient-to-r from-primary to-accent text-primary-foreground font-semibold hover:from-primary/90 hover:to-accent/90 transition-transform hover:scale-[1.05]"
+              >
+                MarketPlace
+              </Button>
+              <Button
                 className="px-8 py-3 bg-gradient-to-r from-secondary to-accent text-primary-foreground font-semibold hover:from-secondary/90 hover:to-accent/90 transition-transform hover:scale-[1.05] flex items-center space-x-2"
                 onClick={openModal}
               >

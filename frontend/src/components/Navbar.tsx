@@ -14,7 +14,7 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "Services", href: "/#services" },
     { name: "About", href: "/#about" },
-    { name: "Contact", href: "/#contact" },
+    { name: "Library", href: "/library" },
   ];
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const Navbar = () => {
               <Sprout className="h-6 w-6 text-primary-foreground" />
             </div>
             <span className="text-xl font-bold text-foreground group-hover:text-primary transition-colors">
-              FarmFlow
+              DailyFarm
             </span>
           </Link>
 

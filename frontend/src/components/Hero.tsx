@@ -35,7 +35,7 @@ const Hero = () => {
           <div className="text-center mb-16">
             <div className="flex items-center justify-center gap-2 mb-6">
               <Leaf className="h-8 w-8 text-primary" />
-              <h1 className="text-2xl font-bold text-primary font-serif">FarmCo</h1>
+              <h1 className="text-2xl font-bold text-primary font-serif">DailyFarm</h1>
             </div>
             
             <h2 className="text-5xl md:text-7xl font-bold text-foreground mb-6 font-serif leading-tight">

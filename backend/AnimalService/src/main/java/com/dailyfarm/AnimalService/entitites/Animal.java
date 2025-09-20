@@ -5,13 +5,11 @@ import com.dailyfarm.AnimalService.enums.AnimalStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "dailyfarm_animals")
@@ -24,7 +22,12 @@ import java.util.Set;
 public class Animal {
 
     @Id
-    @Column(name = "animal_id")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "animal_id", updatable = false, nullable = false)
     private String animalId;
 
     @Column(nullable = false)
@@ -34,15 +37,15 @@ public class Animal {
     private String farmId;
 
     @Column(nullable = false)
+    private String plotId;
+
+    @Column(nullable = false)
     private String ownerId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "animal_type_id", nullable = false)
-    private AnimalType animalType;
+    @Column(nullable = false)
+    private int number;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "breed_id")
-    private AnimalBreed breed;
+    private String breed;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -53,7 +56,7 @@ public class Animal {
     private AnimalStatus status;
 
     @Column(nullable = false)
-    private LocalDate birthDate;
+    private BigDecimal age;
 
     @Column(nullable = false)
     private String gender;
@@ -67,35 +70,6 @@ public class Animal {
     @Column(precision = 10, scale = 2)
     private BigDecimal purchasePrice;
 
-    @Column(precision = 10, scale = 2)
-    private BigDecimal currentValue;
-
-    @Column(name = "identification_number", unique = true)
-    private String identificationNumber;
-
-    @Column(name = "rfid_tag")
-    private String rfidTag;
-
-    @Column(name = "ear_tag")
-    private String earTag;
-
-    @Column(nullable = false)
-    private String division;
-
-    @Column(nullable = false)
-    private String district;
-
-    @Column(nullable = false)
-    private String upazila;
-
-    private String village;
-
-    @Column(precision = 10, scale = 6)
-    private BigDecimal latitude;
-
-    @Column(precision = 10, scale = 6)
-    private BigDecimal longitude;
-
     @Column(name = "mother_id")
     private String motherId;
 
@@ -105,41 +79,19 @@ public class Animal {
     @Column(name = "vaccination_status")
     private String vaccinationStatus;
 
-    @Column(name = "insurance_policy")
-    private String insurancePolicy;
+    private String food;
 
     @Column(columnDefinition = "TEXT")
     private String notes;
 
-    @Column(nullable = false)
+
     private Boolean isActive = true;
+
+    private String animalHealth;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    // Relationships
-    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AnimalHealth> healthRecords;
-
-    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AnimalProductivity> productivityRecords;
-
-    @ManyToMany(mappedBy = "animals", fetch = FetchType.LAZY)
-    private Set<SymbioticRelationship> symbioticRelationships;
-
-    // Calculated fields
-    public int getAgeInDays() {
-        return java.time.Period.between(birthDate, LocalDate.now()).getDays();
-    }
-
-    public int getAgeInMonths() {
-        return java.time.Period.between(birthDate, LocalDate.now()).getMonths();
-    }
-
-    public int getAgeInYears() {
-        return java.time.Period.between(birthDate, LocalDate.now()).getYears();
-    }
 }

@@ -10,8 +10,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "dailyfarm_crops")
@@ -56,23 +54,22 @@ public class Crop {
     private LocalDate expectedHarvestDate;
 
     @Column(precision = 8, scale = 2)
-    private BigDecimal plantedArea;  // In acres
+    private BigDecimal plantedArea;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal seedCost;
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal currentValue;  // Estimated market value
+    private BigDecimal currentValue;
 
     @Column(name = "batch_number", unique = true)
     private String batchNumber;
 
-
     @Column(name = "pest_resistance")
-    private String pestResistance;  // e.g., "High to aphids"
+    private String pestResistance;
 
     @Column(name = "fertilizer_needs")
-    private String fertilizerNeeds;  // JSON for NPK ratios
+    private String fertilizerNeeds;
 
     @Column(name = "irrigation_needs")
     private String irrigationNeeds;
@@ -92,16 +89,33 @@ public class Crop {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    // Relationships
-    @OneToMany(mappedBy = "crop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CropHealth> healthRecords;
+    // Health fields (latest record)
+    @Column(name = "health_check_date")
+    private LocalDateTime healthCheckDate;
 
-    @OneToMany(mappedBy = "crop", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<CropProductivity> productivityRecords;
+    @Column
+    private String disease;
 
+    @Column
+    private String treatment;
 
+    @Column(columnDefinition = "TEXT")
+    private String healthNotes;
 
-    // Calculated fields
+    // Productivity fields (latest record)
+    @Column(name = "productivity_record_date")
+    private LocalDateTime productivityRecordDate;
+
+    @Column(precision = 8, scale = 2)
+    private BigDecimal yieldAmount;
+
+    @Column
+    private BigDecimal growthRate;
+
+    @Column(columnDefinition = "TEXT")
+    private String productivityNotes;
+
+    // Calculated field
     public int getGrowthDays() {
         return java.time.Period.between(plantingDate, LocalDate.now()).getDays();
     }
