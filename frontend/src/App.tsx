@@ -15,6 +15,8 @@ import PlotDetails from "./pages/LoggedIn/plotDetails";
 import Plants from "./pages/LoggedIn/plants";
 import Animal from "./pages/LoggedIn/animals";
 import Fishes from "./pages/LoggedIn/fishesh";
+import Library from "./pages/library";
+import MarketPlace from "./pages/LoggedIn/marketPlace";
 
 const queryClient = new QueryClient();
 
@@ -25,10 +27,12 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/library" element={<Library />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/manageFarm" element={<ManageFarms />} />
           <Route path="/manage-plots/:farmId" element={<ManagePlots />} />
@@ -36,6 +40,7 @@ const App = () => (
           <Route path="/add-plants/:plotId/:farmId" element={<Plants />} />
           <Route path="/add-fishes/:plotId/:farmId" element={<Fishes />} />
           <Route path="/add-animals/:plotId/:farmId" element={<Animal />} />
+          <Route path="/marketPlace" element={<MarketPlace />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
