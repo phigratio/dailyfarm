@@ -22,7 +22,7 @@ public class SecurityConfig {
         return http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .authorizeExchange(exchange -> exchange
-                        .pathMatchers("/eureka/**", "/auth/**").permitAll()
+                        .pathMatchers("/eureka/**", "/auth/**","/actuator/prometheus").permitAll()
                         .pathMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .anyExchange().authenticated()
                 )

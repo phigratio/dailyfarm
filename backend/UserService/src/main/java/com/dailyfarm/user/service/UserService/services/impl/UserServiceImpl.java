@@ -6,7 +6,12 @@ import com.dailyfarm.user.service.UserService.enums.UserStatus;
 import com.dailyfarm.user.service.UserService.exceptions.ResourceNotFoundException;
 import com.dailyfarm.user.service.UserService.repositories.UserRepository;
 import com.dailyfarm.user.service.UserService.services.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
-
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     @Override
     public User saveUser(User user) {
 
@@ -38,7 +43,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Cacheable(value = "users", key = "#userId")
     public User getUser(String userId) {
+        logger.info("Fetching user with ID {} from the database (cache miss).", userId);
         return userRepository.findById(userId)
                 .orElseThrow(()->new ResourceNotFoundException("User not found with userId: " + userId));
 
@@ -51,7 +58,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @CacheEvict(value = "users", key = "#id")
     public void deleteUser(String id) {
+        logger.info("Deleting user with ID {}. Evicting from cache.", id);
         User user=getUser(id);
         userRepository.delete(user);
     }
@@ -61,7 +70,9 @@ public class UserServiceImpl implements UserService {
                 .orElse(null);
     }
     @Override
+    @CachePut(value = "users", key = "#user.userId")
     public User updateUser(User user) {
+        logger.info("Updating user with ID {}. Updating cache.", user.getUserId());
         User existingUser=getUser(user.getUserId());
         if (user.getUserName() != null) {
             existingUser.setUserName(user.getUserName());
@@ -109,15 +120,24 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByRole(role);
     }
 
+    @Override
+    @CachePut(value = "users", key = "#userId")
     public User updateUserStatus(String userId, UserStatus status) {
+        logger.info("Updating status for user with ID {}. Updating cache.", userId);
         User user = getUser(userId);
         user.setStatus(status);
         return userRepository.save(user);
     }
 
+    @Override
+    @CachePut(value = "users", key = "#userId")
     public User updateUserRole(String userId, RoleEnum role) {
+
+        logger.info("Updating role for user with ID {}. Updating cache.", userId);
         User user = getUser(userId);
         user.setRole(role);
         return userRepository.save(user);
+
     }
 }
+
