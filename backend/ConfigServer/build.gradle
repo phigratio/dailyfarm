@@ -26,6 +26,12 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    // Logging (KEEP IT SIMPLE)
+    implementation 'com.github.loki4j:loki-logback-appender:1.4.2'
+
 }
 
 dependencyManagement {

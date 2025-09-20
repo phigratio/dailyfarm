@@ -20,7 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     public static final String[] PUBLIC_URLS = {
-            "/auth/**"  // Auth endpoints public
+            "/auth/**" ,
+            "/actuator/prometheus"// Auth endpoints public
     };
 
     @Autowired

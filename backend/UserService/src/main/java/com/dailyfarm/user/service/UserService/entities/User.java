@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import java.io.Serializable;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 @Table(name="dailyfarm_users")
-public class User {
+public class User implements Serializable{
 
     @Id
     @Column(name = "userId", nullable = false)
