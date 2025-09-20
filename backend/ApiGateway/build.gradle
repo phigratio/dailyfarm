@@ -35,6 +35,13 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'com.github.loki4j:loki-logback-appender:1.4.2'
+    // This dependency is required for the RequestRateLimiter filter
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 }
 
 dependencyManagement {
